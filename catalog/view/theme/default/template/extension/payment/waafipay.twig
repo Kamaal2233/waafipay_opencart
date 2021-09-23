@@ -1,0 +1,62 @@
+<div class="info form-group">
+	<label style="font-size:16px;"> {{payment_description}} </label>
+</div>
+<form id="payment" method="post">
+  <div class="form-group">
+    {{inputhtml}} 
+	<!--div class="form-row form-row-wide"><p class="top-margin">Credit Card</p>
+		<input id="waafi_pay_from_cc" name="waafi_pay_from" value="CREDIT_CARD"  type="radio" checked="checked" />
+	</div>
+	<div class="form-row form-row-wide"><p class="top-margin">MWALLET ACCOUNT</p>
+		<input id="waafi_pay_from_macc" name="waafi_pay_from" value="MWALLET_ACCOUNT"  type="radio" />
+	</div>
+	<div class="form-row form-row-wide"><p class="top-margin">MWALLET BANKACCOUNT</p>
+		<input id="waafi_pay_from_bankacc" name="waafi_pay_from" value="MWALLET_BANKACCOUNT"  type="radio" />
+	</div-->
+  </div>  
+  <input type="hidden" name="amount" id="amount" value="{{ amount }}" />
+  <input type="hidden" name="currency" id="currency" value="{{ currency }}" />
+  <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}" />
+</form>
+
+<div class="buttons">
+    <div class="pull-left">
+      <input type="submit" value="{{ button_confirm }}" id="button-confirm" class="btn btn-primary" />
+    </div>
+</div>
+
+<form method="POST" id="waafiformcustom" action="" style="display:none;">
+	<input type="hidden" name="hppRequestId" id="hppRequestId" VALUE="" >
+	<input type="hidden" name="referenceId" id="referenceId" VALUE="" >  
+</form>
+
+<script type="text/javascript"><!--
+$('#button-confirm').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=extension/payment/waafipay/send',
+		type: 'post',
+		data: {waafi_pay_fromm:$('input[name="waafi_pay_from"]').val(),waafi_pay_from:$('input[name="waafi_pay_from"]:checked').val(),amount:$('#amount').val(),
+		currency:$('#currency').val(),order_id:$('#order_id').val()},
+		dataType: 'json',
+		cache: false,
+		beforeSend: function() {
+			$('#button-confirm').button('loading');
+		},
+		complete: function() {
+			$('#button-confirm').button('reset');
+		},
+		success: function(json) {
+			if (json['error']) {
+				alert(json['error']);
+			}
+
+			if (json['returnurl']) {
+				$('#waafiformcustom').attr('action', json['returnurl']);
+				$('#hppRequestId').val(json['hppRequestId']);
+				$('#referenceId').val(json['referenceId']);
+				document.getElementById("waafiformcustom").submit();
+			}
+		}
+	});
+});
+//--></script>
