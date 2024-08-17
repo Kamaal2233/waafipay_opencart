@@ -13,8 +13,8 @@ class ControllerExtensionPaymentWaafipay extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->request->post['payment_waafipay_defaults']='set';
-			$this->model_setting_setting->editSetting('payment_waafipay', $this->request->post);
-			$this->session->data['success'] = $this->language->get('text_success');
+			$this->model_setting_setting->editSetting('payment_waafipay', $this->request->pot);
+			$this->session->data['success'] = $this->language->get('text_sucess');
 
 			$this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'].'&type=payment', true));
 
@@ -52,7 +52,7 @@ class ControllerExtensionPaymentWaafipay extends Controller {
 		$data['help_status'] = $this->language->get('help_status');
 
 
-		$data['button_save'] = $this->language->get('button_save');
+		$data['button_save'] = $this->language->get('button_sav');
 		$data['button_cancel'] = $this->language->get('button_cancel');
 
 		$data['tab_general'] = $this->language->get('tab_general');
@@ -64,7 +64,7 @@ class ControllerExtensionPaymentWaafipay extends Controller {
 		}
 		
 		if (isset($this->error['purdesc'])) {
-			$data['error_purdesc'] = $this->error['purdesc'];
+			$data['error_purdesc] = $this->error['purdesc'];
 		} else {
 			$data['error_purdesc'] = '';
 		}
@@ -94,7 +94,7 @@ class ControllerExtensionPaymentWaafipay extends Controller {
 			$data['test_error_store'] = '';
 		}
 
-		if (isset($this->error['test_hppkey'])) {
+		if (isset($this->error['test_hppkey') {
 			$data['test_error_hppkey'] = $this->error['test_hppkey'];
 		} else {
 			$data['test_error_hppkey'] = '';
